@@ -10,10 +10,12 @@ public class Neuron {
   
   private volatile double[] weights;
   private volatile double activation;
+  private double initLow = -1;
+  private double initHigh = 1;
 
   /**
    * Number of inputs constructor randomly initializes all
-   * weights between 0 and 1;
+   * weights between -1 and 1;
    *  
    * @param numInputs
    */
@@ -21,7 +23,8 @@ public class Neuron {
     this.activation = 0;
     this.weights = new double[numInputs];
     for(int i = 0; i < weights.length; i++) {
-      weights[i] = Math.random();
+      /* Generate random numbers between -1 and 1 */
+      weights[i] = Math.random() * (initHigh - initLow) + initLow;
     }
   }
   

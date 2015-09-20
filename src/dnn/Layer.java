@@ -5,6 +5,8 @@ public class Layer {
   private volatile double[] layerActivations;
   private Neuron[] neurons;
   private int numInputs;
+  private double biasInput = 1;
+  private double[] inputArray;
 
   /**
    * Allow the layer to set up the neurons for you...
@@ -12,13 +14,17 @@ public class Layer {
    * @param numNeurons
    * @param numInputs
    */
-  public Layer(int numNeurons, int numInputs) {
-    this.numInputs = numInputs;
+  public Layer(int numNeurons, int inputDimension) {
+    /* adding the bias input */
+    this.numInputs = inputDimension + 1;
+    this.inputArray = new double[numInputs];
+    /* create an array with all 1's, then copy input to it */
+    for (int i = 0; i < inputArray.length; i++)
+      inputArray[i] = biasInput;
     this.neurons = new Neuron[numNeurons];
-    for(int i = 0; i < neurons.length; i++) {
-      /* neurons have random initialization */
+    /* neurons have random initialization */
+    for (int i = 0; i < neurons.length; i++)
       neurons[i] = new Neuron(numInputs);
-    }
   }
   
   /**
@@ -45,9 +51,11 @@ public class Layer {
   }
   
   public void feedForward(double[] input) {
+    /* copy to inputArray containing bias input */
+    System.arraycopy(input, 0, inputArray, 0, input.length);
     double[] activations = new double[neurons.length];
     for(int i = 0; i < neurons.length; i++) {
-      neurons[i].excite(input);
+      neurons[i].excite(inputArray);
       activations[i] = neurons[i].getActivation();
     }
     setLayerActivations(activations);
