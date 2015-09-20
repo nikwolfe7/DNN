@@ -16,10 +16,23 @@ public class NeuralNetwork {
       inputs = layer.getLayerOutputActivations();
     }
   }
+
+  /* Access internal layers */
+  public Layer[] getLayers() {
+    return layers;
+  }
   
+  /* get output from last layer */
   public double[] getNetworkOutput() {
-    /* get output from last layer */
     return outputLayer.getLayerOutputActivations();
+  }
+  
+  public int getNumInputs() {
+    return layers[0].getNumInputs();
+  }
+
+  public int getNumOutputs() {
+    return outputLayer.getNumNeurons();
   }
   
   public static void main(String[] args) {
@@ -28,17 +41,10 @@ public class NeuralNetwork {
     NeuralNetwork network = dnnFactory.getInitializedNeuralNetwork();
 
     network.feedForwardFromInput(input);
-    
-    StringBuilder sb = new StringBuilder("[  ");
-    for(Double d : input)
-      sb.append(d + "  ");
-    System.out.println("\nNetwork input: " + sb.toString() + "]");
-    
-    sb = new StringBuilder("[  ");
-    for(Double d : network.getNetworkOutput()) {
-      sb.append(d + "  ");
-    }
-    System.out.println("Network output: " + sb.toString() + "]");
+    System.out.println("\nNetwork input:\t" + DNNUtils.printVector(input));
+    System.out.println("Network output:\t" + DNNUtils.printVector(network.getNetworkOutput()));
   }
+
+  
 
 }

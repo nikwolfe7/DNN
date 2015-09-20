@@ -1,0 +1,35 @@
+package dnn;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class DNNUtils {
+  
+  public static String printVector(double[] vec) {
+    DecimalFormat f = new DecimalFormat("###.###");
+    StringBuilder sb = new StringBuilder("[  ");
+    for(Double d : vec)
+      sb.append(f.format(d) + "  ");
+    return sb.toString() + "]";
+  }
+
+  public static List<double[]> getInputsFromFile(String file) throws FileNotFoundException {
+    List<double[]> inputs = new ArrayList<double[]>();
+    Scanner scn = new Scanner(new File(file));
+    while(scn.hasNextLine()) {
+      String line = scn.nextLine();
+      String[] arr = line.split("\\,");
+      double[] vector = new double[arr.length];
+      for(int i = 0; i < arr.length; i++)
+        vector[i] = Double.valueOf(arr[i]);
+      inputs.add(vector);
+    }
+    scn.close();
+    return inputs;
+  }
+
+}

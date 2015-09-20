@@ -42,6 +42,11 @@ public class Layer {
     return neurons.length;
   }
   
+  /* Number of inputs to layer without bias */
+  public int getNumInputs() {
+    return numInputs - 1;
+  }
+  
   private void setLayerActivations(double[] activations) {
     this.layerActivations = activations;
   }

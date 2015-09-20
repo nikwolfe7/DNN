@@ -37,7 +37,7 @@ public class SimpleDNNFactory implements DNNFactory {
     int prevLayerInputs = layers[outputLayer - 1].getNumNeurons();
     layers[outputLayer] = new Layer(outputs, prevLayerInputs);
     this.network = new NeuralNetwork(layers);
-    System.out.println("Done!");
+    System.out.println("Done!\n");
   }
 
   @Override
