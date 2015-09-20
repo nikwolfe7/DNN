@@ -23,7 +23,22 @@ public class NeuralNetwork {
   }
   
   public static void main(String[] args) {
+    double[] input = { 0.1, 0.4, 0.5, 0.5, 0.23, 0.55, 0.7, 0.12, 0.111, 0.67 };
+    DNNFactory dnnFactory = new SimpleDNNFactory(input.length, 2, 50, 40, 50);
+    NeuralNetwork network = dnnFactory.getInitializedNeuralNetwork();
+
+    network.feedForwardFromInput(input);
     
+    StringBuilder sb = new StringBuilder("[  ");
+    for(Double d : input)
+      sb.append(d + "  ");
+    System.out.println("\nNetwork input: " + sb.toString() + "]");
+    
+    sb = new StringBuilder("[  ");
+    for(Double d : network.getNetworkOutput()) {
+      sb.append(d + "  ");
+    }
+    System.out.println("Network output: " + sb.toString() + "]");
   }
 
 }
