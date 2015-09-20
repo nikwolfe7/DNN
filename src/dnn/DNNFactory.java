@@ -2,6 +2,6 @@ package dnn;
 
 public interface DNNFactory {
 
-  public NeuralNetwork getNeuralNetwork();
+  public NeuralNetwork getInitializedNeuralNetwork();
 
 }

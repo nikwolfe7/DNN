@@ -3,9 +3,11 @@ package dnn;
 public class NeuralNetwork {
   
   private Layer[] layers;
+  private Layer outputLayer;
 
   public NeuralNetwork(Layer... layers) {
     this.layers = layers;
+    this.outputLayer = layers[layers.length - 1];
   }
   
   public void feedForwardFromInput(double[] inputs) {
@@ -17,7 +19,7 @@ public class NeuralNetwork {
   
   public double[] getNetworkOutput() {
     /* get output from last layer */
-    return layers[layers.length - 1].getLayerOutputActivations();
+    return outputLayer.getLayerOutputActivations();
   }
   
   public static void main(String[] args) {
