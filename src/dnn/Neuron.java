@@ -8,10 +8,14 @@ package dnn;
  */
 public class Neuron {
   
+  /* Neuron parameters */
   private volatile double[] weights;
-  private volatile double activation;
-  private double initLow = -1;
-  private double initHigh = 1;
+  private volatile double weightedInputSum;
+  private volatile double outputActivation;
+  
+  /* Initializations from Tom Mitchell */
+  private double initLow = -0.05;
+  private double initHigh = 0.05;
 
   /**
    * Number of inputs constructor randomly initializes all
@@ -20,7 +24,8 @@ public class Neuron {
    * @param numInputs
    */
   public Neuron(int numInputs) {
-    this.activation = 0;
+    this.weightedInputSum = 0;
+    this.outputActivation = 0;
     this.weights = new double[numInputs];
     for(int i = 0; i < weights.length; i++) {
       /* Generate random numbers between -1 and 1 */
@@ -34,7 +39,7 @@ public class Neuron {
    * @param initialWeights
    */
   public Neuron(double[] initialWeights) {
-    this.activation = 0;
+    this.outputActivation = 0;
     this.weights = initialWeights;
   }
   
@@ -43,20 +48,28 @@ public class Neuron {
   }
   
   public void setActivation(double newActivation) {
-    this.activation = newActivation;
+    this.outputActivation = newActivation;
   }
   
+  public void setWeightedInputSum(double weightedInputSum) {
+    this.weightedInputSum = weightedInputSum;
+  }
+
   public double[] getWeights() {
     return weights;
   }
   
   public double getActivation() {
-    return activation;
+    return outputActivation;
+  }
+  
+  public double getWeightedInputSum() {
+    return weightedInputSum;
   }
 
   public void excite(double[] input) {
-    double weightedSum = TransferFunction.weightedSum(input, getWeights());
-    setActivation(ActivationFunction.sigmoid(weightedSum));
+    setWeightedInputSum(TransferFunction.weightedSum(input, getWeights()));
+    setActivation(ActivationFunction.sigmoid(getWeightedInputSum()));
   }
   
   public String getStringRepresentation() {

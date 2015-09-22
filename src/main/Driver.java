@@ -27,19 +27,26 @@ public class Driver {
     dataFile = DataGenerator.getCosineData(1000);
     data = DNNUtils.getTrainingInstances(dataFile, 1, 1); // 1 in, 1 out
     trainDNN(data, factory.getInitializedNeuralNetwork());
+    
+    /* Pythagorean */
+    dataFile = DataGenerator.getPythagoreanData(1000);
+    data = DNNUtils.getTrainingInstances(dataFile, 2, 1); // 2 in, 1 out
+    trainDNN(data, factory.getInitializedNeuralNetwork());
   }
   
   private static void trainDNN(List<DataInstance> data, NeuralNetwork network) {
     double squaredError = 0;
-    for(DataInstance instance : data) {
+    for (DataInstance instance : data) {
+
       /* Run the data through the network */
       network.feedForwardFromInput(instance.getInputVector());
-      
+      network.backPropagateError(instance.getOutputTruthValue());
+
       /* Output */
       System.out.println("Input:\t" + DNNUtils.printVector(instance.getInputVector()));
       System.out.println("Output:\t" + DNNUtils.printVector(network.getNetworkOutput()));
       System.out.println("Truth:\t" + DNNUtils.printVector(instance.getOutputTruthValue()));
-      
+
       /* Running sum of the error */
       double net, truth;
       net = network.getNetworkOutput()[0];

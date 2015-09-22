@@ -6,6 +6,10 @@ public class ActivationFunction {
     return 1.0 / (1.0 + Math.exp(-input));
   }
   
+  public static double sigmoidDerivative(double input) {
+    return sigmoid(input) * (1 - sigmoid(input));
+  }
+  
   public static void main(String[] args) {
     double i = -5;
     while(i < 5) {
