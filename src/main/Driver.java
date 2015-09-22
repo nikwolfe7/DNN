@@ -12,11 +12,11 @@ import dnn.SimpleDNNFactory;
 public class Driver {
   
   public static void main(String[] args) throws FileNotFoundException, IOException {
-    int numInputs = 2;
+    int numInputs = 26;
     int numDataInstances = 5;
     int numOutputs = 1;
     List<double[]> data = DNNUtils.getInputsFromFile(DataGenerator.getAdditionData(numInputs, numDataInstances));
-    DNNFactory factory = new SimpleDNNFactory(numInputs, numOutputs, 2);
+    DNNFactory factory = new SimpleDNNFactory(numInputs, numOutputs, 250, 25, 250, 25, 300, 60, 250, 25);
     trainDNN(data, factory.getInitializedNeuralNetwork());
   }
   

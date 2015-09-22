@@ -59,6 +59,21 @@ public class Neuron {
     setActivation(ActivationFunction.sigmoid(weightedSum));
   }
   
+  public String getStringRepresentation() {
+    String[] arr = new String[weights.length];
+    for(int i = 0; i < arr.length; i++)
+      arr[i] = "" + weights[i];
+    return "[" + String.join(",", arr) + "]";
+  }
+  
+  public static Neuron instantiateFromString(String string) {
+    String[] arr = string.split("\\,");
+    double[] initialWeights = new double[arr.length];
+    for(int i = 0; i < arr.length; i++)
+      initialWeights[i] = Double.parseDouble(arr[i]);
+    return new Neuron(initialWeights);
+  }
+  
   public static void main(String[] args) {
     Neuron n = new Neuron(5);  
     double[] impulse = new double[] {1,2,3,4,5};

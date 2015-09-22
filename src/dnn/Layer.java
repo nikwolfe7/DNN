@@ -1,5 +1,8 @@
 package dnn;
 
+import java.util.Arrays;
+import java.util.regex.Pattern;
+
 public class Layer {
   
   private volatile double[] layerActivations;
@@ -17,10 +20,9 @@ public class Layer {
   public Layer(int numNeurons, int inputDimension) {
     /* adding the bias input */
     this.numInputs = inputDimension + 1;
-    this.inputArray = new double[numInputs];
     /* create an array with all 1's, then copy input to it */
-    for (int i = 0; i < inputArray.length; i++)
-      inputArray[i] = biasInput;
+    this.inputArray = new double[numInputs];
+    Arrays.fill(inputArray, biasInput);
     this.neurons = new Neuron[numNeurons];
     /* neurons have random initialization */
     for (int i = 0; i < neurons.length; i++)
@@ -34,8 +36,10 @@ public class Layer {
    * @param neurons
    */
   public Layer(Neuron... neurons) {
-    this.numInputs = neurons[0].getWeights().length;
     this.neurons = neurons;
+    this.numInputs = neurons[0].getWeights().length;
+    this.inputArray = new double[numInputs];
+    Arrays.fill(inputArray, biasInput);
   }
   
   public int getNumNeurons() {
@@ -86,6 +90,26 @@ public class Layer {
       neurons[i].replaceWeights(newWeights[i]);
   }
   
+  /**
+   * get string representation to write to file
+   * @return String
+   */
+  public String getStringRepresentation() {
+    String[] arr = new String[neurons.length];
+    for(int i = 0; i < arr.length; i++)
+      arr[i] = neurons[i].getStringRepresentation();
+    return "[" + String.join(",", arr) + "]";
+  }
+  
+  public static Layer instantiateFromString(String string) {
+    string = string.replaceAll(Pattern.quote("[["),"").replaceAll(Pattern.quote("]]"),"");
+    String[] arr = string.split(Pattern.quote("],["));
+    Neuron[] neurons = new Neuron[arr.length];
+    for(int i = 0; i < arr.length; i++)
+      neurons[i] = Neuron.instantiateFromString(arr[i]);
+    return new Layer(neurons);
+  }
+  
   public static void main(String[] args) {
     Layer l1 = new Layer(4, 3);
     double[] input = { 0.1, 0.2, 0.3 };
@@ -97,6 +121,5 @@ public class Layer {
     sb.append("]");
     System.out.println("Layer output: " + sb.toString());
   }
-  
 
 }

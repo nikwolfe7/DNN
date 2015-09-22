@@ -1,5 +1,9 @@
 package dnn;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class NeuralNetwork {
   
   private Layer[] layers;
@@ -27,6 +31,14 @@ public class NeuralNetwork {
     return outputLayer.getLayerOutputActivations();
   }
   
+  /* Write learned weights to file */
+  public void writeNetworkToFile(String fileName) throws IOException {
+    FileWriter writer = new FileWriter(new File(fileName));
+    for(Layer layer : layers)
+      writer.write(layer.getStringRepresentation() + "\n");
+    writer.close();
+  }
+  
   public int getNumInputs() {
     return layers[0].getNumInputs();
   }
@@ -35,14 +47,17 @@ public class NeuralNetwork {
     return outputLayer.getNumNeurons();
   }
   
-  public static void main(String[] args) {
-    double[] input = { 0.1, 0.4, 0.5, 0.5, 0.23, 0.55, 0.7, 0.12, 0.111, 0.67 };
-    DNNFactory dnnFactory = new SimpleDNNFactory(input.length, 2, 50, 40, 50);
+  public static void main(String[] args) throws IOException {
+    double[] input = { 0.1, 0.4 };
+    DNNFactory dnnFactory = new SimpleDNNFactory(input.length, 2, 4, 3, 2);
     NeuralNetwork network = dnnFactory.getInitializedNeuralNetwork();
 
     network.feedForwardFromInput(input);
     System.out.println("\nNetwork input:\t" + DNNUtils.printVector(input));
     System.out.println("Network output:\t" + DNNUtils.printVector(network.getNetworkOutput()));
+    
+    /* Write the network to file... */
+    network.writeNetworkToFile("test.dnn.txt");
   }
 
   
