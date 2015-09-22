@@ -1,4 +1,4 @@
-package main;
+package training;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -43,12 +43,11 @@ public class DataGenerator {
       @Override
       public double[] calc(double... inputs) {
         double[] result = new double[1];
-        result[0] = Math.cos(Math.PI * inputs[0] / 180);
+        result[0] = Math.cos(Math.PI * inputs[0] / 180.0);
         return result;
       }
     });
   }
-  
   
   private static String applyFunctionAndWriteDataToFile(String fileName, List<double[]> data,
           InputFunction function) throws IOException {
